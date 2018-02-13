@@ -81,7 +81,7 @@ print count
 
 ############################
 
-
+#Checks to see if the first mentioned classification is the same as the classifiction being iterated through in list (j), and if it is, moves the image to the corresponding folder
 count = 0
 for i in range(len(labels_data)):
     for j in range(len(classifications)):
