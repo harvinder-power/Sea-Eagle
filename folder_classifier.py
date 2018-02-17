@@ -3,7 +3,7 @@ import csv
 import pandas as pd
 from shutil import copyfile
 
-labels_dir = '/Volumes/SAMSUNG/Kaggle/NIH Test Folder/images2/Data_Entry_2017.csv'
+labels_dir = '/Users/harvinderpower/images2/Data_Entry_2017.csv'
 
 #determine the length of the dataset
 labels_data = pd.read_csv(labels_dir)
@@ -39,11 +39,41 @@ print classifications
 #Check if the directory exists for each classification, if it doesn't, then make one.
 
 for i in range(len(classifications)):
-    print "/Volumes/SAMSUNG/Kaggle/NIH Test Folder/images2/" + classifications[i]
-    if os.path.exists("/Volumes/SAMSUNG/Kaggle/NIH Test Folder/images2/" + classifications[i]) == False:
-        os.mkdir("/Volumes/SAMSUNG/Kaggle/NIH Test Folder/images2/" + classifications[i])
+    print "/Users/harvinderpower/images2/Resized/" + classifications[i]
+    if os.path.exists("/Users/harvinderpower/images2/Resized/" + classifications[i]) == False:
+        os.mkdir("/Users/harvinderpower/images2/Resized/" + classifications[i])
     else:
         pass
+############################
+
+#Checks to see if the first mentioned classification is the same as the classifiction being iterated through in list (j), and if it is, moves the image to the corresponding folder
+count = 0
+for i in range(len(labels_data)):
+    for j in range(len(classifications)):
+        if labels_data.iloc[i,1].split('|')[0] == classifications[j]:
+            print 'Images copied = ', count
+            #print labels_data.iloc[i, 0]
+            source_loc = ('/Users/harvinderpower/images2/Resized/' + labels_data.iloc[i, 0])
+            #print source_loc
+            sink_loc = ('/Users/harvinderpower/images2/Resized/' + classifications[j] + "/" + labels_data.iloc[i, 0])
+            if os.path.isfile(source_loc):
+                copyfile(source_loc, sink_loc)
+                count += 1
+            else:
+                pass
+
+        else:
+            pass
+
+print count
+
+
+
+
+
+
+
+
 
 
 
@@ -77,27 +107,3 @@ for i in range(len(labels_data)):
 
 print count
 '''
-
-
-############################
-
-#Checks to see if the first mentioned classification is the same as the classifiction being iterated through in list (j), and if it is, moves the image to the corresponding folder
-count = 0
-for i in range(len(labels_data)):
-    for j in range(len(classifications)):
-        if labels_data.iloc[i,1].split('|')[0] == classifications[j]:
-            count += 1
-            print 'Images copied = ', count
-            #print labels_data.iloc[i, 0]
-            source_loc = ('/Volumes/SAMSUNG/Kaggle/NIH Test Folder/images2/' + labels_data.iloc[i, 0])
-            #print source_loc
-            sink_loc = ('/Volumes/SAMSUNG/Kaggle/NIH Test Folder/images2/' + classifications[j] + "/" + labels_data.iloc[i, 0])
-            if os.path.isfile(source_loc):
-                copyfile(source_loc, sink_loc)
-            else:
-                pass
-
-        else:
-            pass
-
-print count
