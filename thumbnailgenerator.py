@@ -2,9 +2,9 @@ from PIL import Image
 import glob, os
 
 new_size = 128, 128
-directory = '/Users/harvinderpower/images2/Folders/TRAIN/'
+directory = '/Users/harvinderpower/images2/Resized/Keras Ready/TRAIN'
 extension = '.png'
-end_directory = '/Users/harvinderpower/images2/Resize_test/'
+end_directory = '/Users/harvinderpower/images2/Resized/Keras Ready/Data PNG Versions'
 
 '''
 for i in os.listdir(directory):
@@ -23,5 +23,7 @@ for subdir, dirs, files in os.walk(directory):
             count += 1
             img = Image.open(filepath)
             img = img.resize((new_size), Image.ANTIALIAS)
-            img.save(end_directory + file)
+            bg = Image.new("RGB", img.size, (255,255,255))
+            bg.paste(img, (0,0), img)
+            bg.save(filepath + ".jpg", quality=95)
             print count
