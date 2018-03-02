@@ -39,9 +39,9 @@ print classifications
 #Check if the directory exists for each classification, if it doesn't, then make one.
 
 for i in range(len(classifications)):
-    print "/Users/harvinderpower/images2/Resized/" + classifications[i]
-    if os.path.exists("/Users/harvinderpower/images2/Resized/" + classifications[i]) == False:
-        os.mkdir("/Users/harvinderpower/images2/Resized/" + classifications[i])
+    print "/Users/harvinderpower/images2/" + classifications[i]
+    if os.path.exists("/Users/harvinderpower/images2/" + classifications[i]) == False:
+        os.mkdir("/Users/harvinderpower/images2/" + classifications[i])
     else:
         pass
 ############################
@@ -53,12 +53,15 @@ for i in range(len(labels_data)):
         if labels_data.iloc[i,1].split('|')[0] == classifications[j]:
             print 'Images copied = ', count
             #print labels_data.iloc[i, 0]
-            source_loc = ('/Users/harvinderpower/images2/Resized/' + labels_data.iloc[i, 0])
+            source_loc = ('/Users/harvinderpower/images2/' + labels_data.iloc[i, 0])
             #print source_loc
-            sink_loc = ('/Users/harvinderpower/images2/Resized/' + classifications[j] + "/" + labels_data.iloc[i, 0])
+            sink_loc = ('/Users/harvinderpower/images2/' + classifications[j] + "/" + labels_data.iloc[i, 0])
             if os.path.isfile(source_loc):
+                im = Image.open('/Users/harvinderpower/images2/' + labels_data.iloc[i, 0])
+                im = im.convert('RGB')
+                filename_with_new_extension = (labels_data.iloc[i, 0]).split('.')[0] + '.jpg'
+                sink_loc = '/Users/harvinderpower/images2/convert_on_the_fly/' + classifications[j] + "/" + filename_with_new_extension
                 copyfile(source_loc, sink_loc)
-                count += 1
             else:
                 pass
 
