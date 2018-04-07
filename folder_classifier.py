@@ -2,6 +2,8 @@ import os
 import csv
 import pandas as pd
 from shutil import copyfile
+from PIL import Image
+
 
 labels_dir = '/Users/harvinderpower/images2/Data_Entry_2017.csv'
 
