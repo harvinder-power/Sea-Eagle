@@ -20,3 +20,5 @@ This model was trained using [this dataset](https://www.kaggle.com/paultimothymo
 
 ## Implementation
 The model is implemented using Tensorflow.js, which enables local classification rather than sending data to a server.
+
+Live demo: www.harvinder.me/sea-eagle
