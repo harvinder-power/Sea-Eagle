@@ -1,0 +1,101 @@
+<head>
+  <title>Project Sea Eagle</title>
+    <link rel="icon" href="https://i.ibb.co/VY9G76d/eagle.png">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="jumbotron text-center">
+        <h1>Project Sea Eagle</h1>
+        <img id="sea-eagle" src="https://i.ibb.co/VY9G76d/eagle.png" alt="your image" width="100px" height="auto" />
+        <p>Project Sea Eagle uses Transfer Learning to classify Chest X-Ray images to allow for initial screening. </p>
+          <p>Classified images are given a probability of being normal or indicating an underlying pneumonia.</p> 
+        <p><b>NOTE:</b> This classifier is intended for learning puposes, and should not be used for clinical diagnosis.</p> 
+        <i>Logo Credits: Henry Warhurst</i>
+      </div>
+
+<form runat="server">
+    <!-- <input type='file' id="imgInp" /> -->
+
+    <div class="input-group mb-3">
+        <div class="custom-file" style="display: flex; justify-content: center;">
+          <input type="file" class="custom-file-input" id="imgInp">
+          <label class="custom-file-label" for="imgInp" aria-describedby="inputGroupFileAddon02">Choose file</label>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="text-center">
+    <img id="blah" src="https://dummyimage.com/300x300/000/fff.png&text=Upload+image" alt="your image" width="400px" height="400px" />
+    </div>
+</form>
+<div style="display: flex; justify-content: center;">
+<button id = 'predict' style="display:none" type="button" class="btn btn-primary" onclick="init()">Classify</button>
+</div>
+
+
+  <!-- <button id="predict" style="display:none" type="button" onclick="init()" class="btn btn-sm btn-outline-secondary">PREDICT</button> -->
+
+
+<h2 id = "normal-prob">Normal Probability:</h2>
+<h2 id = "pneumonia-prob">Pneumonia Probability:</h2>
+
+</body>
+
+
+<script type="text/javascript">
+    // More API functions here:
+    // https://github.com/googlecreativelab/teachablemachine-community/tree/master/libraries/image
+
+    // the link to your model provided by Teachable Machine export panel
+    const URL = "https://teachablemachine.withgoogle.com/models/UKi3iZJjf/";
+
+    let model, webcam, labelContainer, maxPredictions;
+
+
+    function readURL(input) {
+    if (input.files && input.files[0]) {
+      var reader = new FileReader();
+    
+      reader.onload = function(e) {
+        $('#blah').attr('src', e.target.result);
+    }
+    
+    reader.readAsDataURL(input.files[0]); // convert to base64 string
+  }
+}
+
+//
+$("#imgInp").change(function() {
+  readURL(this);
+  document.getElementById('predict').style.display = "block";
+
+});
+
+
+    // Load the image model and image, and classify
+    async function init() {
+        const modelURL = URL + "model.json";
+        const metadataURL = URL + "metadata.json";
+
+        // load the model and metadata
+        // Refer to tmImage.loadFromFiles() in the API to support files from a file picker
+        // or files from your local hard drive
+        // Note: the pose library adds "tmImage" object to your window (window.tmImage)
+
+        model = await tmImage.load(modelURL, metadataURL);
+        maxPredictions = model.getTotalClasses();
+
+        const img = document.getElementById("blah")
+        const prediction = await model.predict(img);
+        console.log(prediction)
+        document.getElementById('normal-prob').innerHTML = "Normal Probability: " + prediction[0].probability.toFixed(3)*100 + "%";
+        document.getElementById('pneumonia-prob').innerHTML = "Pneumonia Probability: " + prediction[1].probability.toFixed(3)*100 + "%";
+    }
+</script>
