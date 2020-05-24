@@ -22,3 +22,7 @@ This model was trained using [this dataset](https://www.kaggle.com/paultimothymo
 The model is implemented using Tensorflow.js, which enables local classification rather than sending data to a server.
 
 Live demo: www.harvinder.me/sea-eagle
+
+## Improvements
+- Allow users to select from a list of example Chest X-Rays for testing
+- Drag and drop functionality
